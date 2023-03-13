@@ -1,0 +1,25 @@
+body,
+html {
+  margin: 0;
+  height: 100%;
+	min-height: 100%;
+  font-family: Roboto;
+}
+
+h1, h2, h3 {
+  font-family: Space Grotesk;
+}
+
+.fullWidth {
+  width: 100%;
+}
+.fullHeight {
+  height: 100%;
+}
+.smallerText { 
+  --mdc-typography-subtitle1-font-size: 0.85rem;
+}
+.floatRight {
+  float: right;
+  text-align: right;
+}
