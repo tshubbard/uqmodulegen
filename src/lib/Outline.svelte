@@ -6,12 +6,11 @@
   export let components
   export let selectedComp
 
-  const onSaveItem = (comp) => {
-    console.log('onSaveItem: ', comp)
-    const index = components.findIndex((item) => item.key === comp.detail.key)
+  const onSaveItem = (event) => {
+    const { component } = event.detail
+    const index = components.findIndex((item) => item.key === component.key)
 
-    console.log('index: ', index)
-    components.splice(index, 1, comp.detail)
+    components.splice(index, 1, component)
 
     dispatch('updateComponents', components)
   }

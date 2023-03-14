@@ -120,9 +120,9 @@
 <style lang="scss">
   .componentsListSectionWrapper {
     display: grid;
-    height: calc(100vh - 8rem);
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 3fr 1fr;
+    height: calc(100vh - 13rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 3fr) minmax(0, 1fr);
     gap: 1rem;
   }
 

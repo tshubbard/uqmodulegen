@@ -137,7 +137,7 @@
       ct++
     }
 
-    if (readOnlyChecked) {
+    if (hasReadonly && readOnlyChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,
@@ -150,7 +150,7 @@
       ct++
     }
 
-    if (requiredChecked) {
+    if (hasRequired && requiredChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,
@@ -163,7 +163,7 @@
       ct++
     }
 
-    if (disabledChecked) {
+    if (hasDisabled && disabledChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,

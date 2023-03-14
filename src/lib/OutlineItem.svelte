@@ -16,13 +16,12 @@
   }
 
   const onKeypress = (event) => {
-    console.log('onKeypress: ', event.key)
-
     if (event.key === 'Enter') {
       isEditMode = false
       dispatch('onSaveItem', comp)
     }
   }
+
   let reqChecked = comp.validate?.required
   const onToggleRequired = (evt) => {
     reqChecked = evt.target.checked
@@ -64,6 +63,13 @@
       <FormField>
         <Checkbox bind:checked={comp.disabled} />
         <span slot="label">Toggle Disabled State</span>
+      </FormField>
+    {/if}
+
+    {#if options.hideComponentLabel}
+      <FormField>
+        <Checkbox bind:checked={comp.hideComponentLabel} />
+        <span slot="label">Toggle Hide Label</span>
       </FormField>
     {/if}
   {:else}
