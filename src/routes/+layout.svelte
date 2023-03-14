@@ -1,5 +1,5 @@
 <script>
-	import './styles.css';
+	import './styles.css'
 </script>
 
 <div class="app">
@@ -22,5 +22,4 @@
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
-
 </style>
