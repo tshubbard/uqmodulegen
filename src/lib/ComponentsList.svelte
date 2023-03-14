@@ -13,6 +13,7 @@
 
   import { componentsData } from '../data/components'
   import ComponentSettings from './ComponentSettings.svelte'
+  import Outline from './Outline.svelte'
   import { compCountStore } from '../stores/stores.js'
 
   let componentsArr = []
@@ -65,6 +66,10 @@
     resetCompStore()
   }
 
+  const onUpdateComponents = (event) => {
+    componentsArr = event.detail
+    componentsJSON = JSON.stringify(componentsArr)
+  }
   resetCompStore()
 </script>
 
@@ -126,7 +131,12 @@
     </div>
   </div>
   <div class="componentsOutlineWrapper">
-    outline
+    <Outline
+      components={componentsArr}
+      {selectedComp}
+      on:updateComponents={onUpdateComponents}
+    
+    />
   </div>
 </section>
 
@@ -145,6 +155,7 @@
 .componentsJsonWrapper,
 .componentsOutlineWrapper  {
   border: 1px solid black;
+  border-radius: 4px;
   padding: 1rem;
   height: 100%;
 }
@@ -162,6 +173,7 @@
 
 :global(.componentsList) {
   border: 1px solid black;
+  border-radius: 4px;
 }
 
 :global(.mdc-deprecated-list-item__text) {
@@ -172,7 +184,7 @@
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
-  grid-row-end: 2;
+  grid-row-end: span 2;
   border-bottom: none;
 }
 

@@ -105,12 +105,22 @@
       return `${label}${addText}- ${count}`
     }
 
+    const {
+      required: hasRequired,
+      disabled: hasDisabled,
+      readOnlyView: hasReadonly,
+      hideComponentLabel: hasHideLabel
+    } = selectedComp.hasOptions
+    console.log('### selectedComp: ', selectedComp.hasOptions)
     if (noLabelChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,
         key: getKey(selectedComp),
-        label: ''
+        label: '',
+        ...(hasRequired && {validate: { required: false }}),
+        ...(hasReadonly && {readOnlyView: false}),
+        ...(hasDisabled && {disabled: false}),
       })
       ct++
     }
@@ -120,7 +130,10 @@
         ...selectedComp.defaultValues,
         type: compType,
         key: getKey(selectedComp),
-        label: getLabel(selectedComp)
+        label: getLabel(selectedComp),
+        ...(hasRequired && {validate: { required: false }}),
+        ...(hasReadonly && {readOnlyView: false}),
+        ...(hasDisabled && {disabled: false}),
       })
       ct++
     }
@@ -131,7 +144,10 @@
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, '(readonly)'),
-        readOnlyView: true
+        ...(hasRequired && {validate: { required: false }}),
+        ...(hasReadonly && {readOnlyView: true}),
+        ...(hasDisabled && {disabled: false}),
+
       })
       ct++
     }
@@ -142,9 +158,9 @@
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, '(required)'),
-        validate: {
-          required: true
-        }
+        ...(hasRequired && {validate: { required: true }}),
+        ...(hasReadonly && {readOnlyView: false}),
+        ...(hasDisabled && {disabled: false}),
       })
       ct++
     }
@@ -155,7 +171,9 @@
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, '(disabled)'),
-        disabled: true
+        ...(hasRequired && {validate: { required: false }}),
+        ...(hasReadonly && {readOnlyView: false}),
+        ...(hasDisabled && {disabled: true}),
       })
       ct++
     }
@@ -168,11 +186,9 @@
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, getNumVisibleStatesLabel()),
-        readOnlyView: true,
-        disabled: true,
-        validate: {
-          required: true
-        }
+        ...(hasRequired && {validate: { required: true }}),
+        ...(hasReadonly && {readOnlyView: true}),
+        ...(hasDisabled && {disabled: true}),
       })
       ct++
     }
@@ -196,17 +212,15 @@
 <div class="configSectionWrapper">
   <div class="configSection">
     <h3>{selectedComp?.constName ? selectedComp.constName : ''} Config</h3>
-   
 
     {#if compSelected}
-
-    <Wrapper>
-      <FormField>
-          <Checkbox bind:checked={noLabelChecked} />
-          <span slot="label">Add No Label State</span>
-          <Tooltip yPos="above">Component will be generated with an empty label value.</Tooltip>
-      </FormField>
-    </Wrapper>
+      <Wrapper>
+        <FormField>
+            <Checkbox bind:checked={noLabelChecked} />
+            <span slot="label">Add No Label State</span>
+            <Tooltip yPos="above">Component will be generated with an empty label value.</Tooltip>
+        </FormField>
+      </Wrapper>
 
       <FormField>
         <Checkbox bind:checked={compWithLabelChecked} />
@@ -265,8 +279,8 @@
   <div class="defaultValuesSection">
     <h3>Default Values</h3>
     <Textfield 
-    class="fullWidth smallerText"
-    textarea
+      class="fullWidth smallerText"
+      textarea
       variant="filled" label=""
       bind:value={defaultValuesText}
       input$rows={defaultValuesPropCt}
