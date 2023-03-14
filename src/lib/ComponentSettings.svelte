@@ -42,7 +42,7 @@
 
       showAddAll = Object.values(selectedComp.hasOptions).reduce((totalTrue, currentValue) => {
         return currentValue ? totalTrue + 1 : totalTrue
-      }, 0)
+      }, 0) > 1
 
       numCompsToCreate = 0
       numCompStates = 0
@@ -65,7 +65,7 @@
         numCompStates++
       }
 
-      if (!numCompStates) {
+      if (numCompStates <= 1) {
         // if there are no "Add All" components to add, turn this off
         addAllChecked = false
       } else if (addAllChecked) {

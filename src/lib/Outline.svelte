@@ -7,7 +7,7 @@
   export let selectedComp
 
   const onSaveItem = (event) => {
-    const { component } = event.detail
+    const component = event.detail
     const index = components.findIndex((item) => item.key === component.key)
 
     components.splice(index, 1, component)
