@@ -22,11 +22,9 @@
       isEditMode = !isEditMode
       evt.target.focus()
     }
-    console.log('onItemClicked evt: ', evt)
   }
 
   const onKeypress = (event) => {
-    console.log('onKeypress: ', event)
     if (event.key === 'Enter') {
       isEditMode = false
       dispatch('onSaveItem', comp)
@@ -100,9 +98,8 @@
   {:else}
     <div class="editIcon">
       <Icon class="material-icons">edit</Icon>
-      <IconButton class="material-icons deleteBtn" on:click={() => clicked++}>
-        <i class="material-icons deleteBtn" on:click|capture|stopImmediatePropagation={onDeleteClicked}>delete</i>
-      </IconButton>
+      <i class="material-icons deleteBtn"
+        on:click|capture|stopImmediatePropagation={onDeleteClicked}>delete</i>
     </div>
     <div class="key">{comp.key}</div>
     <div class="label">{comp.label}</div>
@@ -139,12 +136,17 @@
       display: none;
       position: absolute;
       top: 0;
-      right: 0;
+      right: 16px;
 
       & :global(.material-icons) {
         font-size: 1rem;
         padding: 0.75rem 0.5rem;
+        width: 1rem;
       }
+    }
+
+    & .deleteBtn:hover {
+      cursor: pointer;
     }
 
     &:hover {

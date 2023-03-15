@@ -198,5 +198,6 @@
     grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end: span 2;
+    overflow-y: scroll;
   }
 </style>

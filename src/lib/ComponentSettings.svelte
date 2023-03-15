@@ -114,18 +114,19 @@
     const newComponents = []
     const compType = selectedComp.type
     let ct = $compCountStore[compType]
+    let addCt = 0
 
     const getKey = (comp) => {
       const key = comp.key || comp.defaultValues.key || 'uhoh'
-      const count = $compCountStore[compType] + ct
-      return `${key}-${count}`
+
+      return `${key}-${ct}`
     }
+
     const getLabel = (comp, appendText) => {
       const label = selectedCompLabel || comp.label || comp.defaultValues.label || ''
       const addText = appendText ? ` ${appendText} ` : ' '
-      const count = $compCountStore[compType] + ct
 
-      return `${label}${addText}- ${count}`
+      return `${label}${addText}- ${ct}`
     }
 
     if (noLabelChecked) {
@@ -140,6 +141,7 @@
         ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
+      addCt++
     }
 
     if (compWithLabelChecked) {
@@ -154,6 +156,7 @@
         ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
+      addCt++
     }
 
     if (hasReadOnlyOption && readOnlyChecked) {
@@ -168,6 +171,7 @@
         ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
+      addCt++
     }
 
     if (hasRequiredOption && requiredChecked) {
@@ -182,6 +186,7 @@
         ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
+      addCt++
     }
 
     if (hasDisabledOption && disabledChecked) {
@@ -196,6 +201,7 @@
         ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
+      addCt++
     }
 
     if (hasHideLabelOption && hideLabelChecked) {
@@ -210,6 +216,7 @@
         ...(hasHideLabelOption && { hideComponentLabel: true })
       })
       ct++
+      addCt++
     }
 
     if (addAllChecked) {
@@ -224,9 +231,10 @@
         ...(hasHideLabelOption && { hideComponentLabel: true })
       })
       ct++
+      addCt++
     }
 
-    $compCountStore[compType] = $compCountStore[compType] + ct
+    $compCountStore[compType] = $compCountStore[compType] + addCt
 
     dispatch('addComponents', newComponents)
   }
