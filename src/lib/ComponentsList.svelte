@@ -83,11 +83,16 @@
       </Textfield>
     </div>
 
-    <List class="componentsList" singleSelection bind:selectedIndex={selectionIndex}>
+    <List
+      class="componentsList"
+      singleSelection
+      bind:selectedIndex={selectionIndex}
+      dense
+    >
       {#each filteredComponents as item}
         <Item on:SMUI:action={() => onSelectItem(item)} selected={selectedType === item.key}>
           <Text>
-            <PrimaryText>{item.type}</PrimaryText>
+            <PrimaryText>{item.type} ({item.constName})</PrimaryText>
           </Text>
         </Item>
       {/each}
