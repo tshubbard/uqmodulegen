@@ -63,6 +63,7 @@
     componentsArr = event.detail
     componentsJSON = JSON.stringify(componentsArr)
   }
+
   resetCompStore()
 </script>
 

@@ -14,13 +14,27 @@
 
     dispatch('updateComponents', components)
   }
+
+  const onDeleteItem = (event) => {
+    const component = event.detail
+    const index = components.findIndex((item) => item.key === component.key)
+
+    components.splice(index, 1)
+
+    dispatch('updateComponents', components)
+  }
 </script>
 
 <h3>Outline</h3>
 
 <ul class="outlineList">
   {#each components as comp}
-    <OutlineItem {comp} on:onSaveItem={onSaveItem} options={selectedComp.hasOptions} />
+    <OutlineItem
+      {comp}
+      on:onSaveItem={onSaveItem}
+      on:onDeleteItem={onDeleteItem}
+      options={selectedComp.hasOptions}
+    />
   {/each}
 </ul>
 

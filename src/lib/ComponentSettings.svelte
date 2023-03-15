@@ -17,7 +17,9 @@
 
   let selectedCompLabel = selectedComp.label || ''
   let defaultValues = {}
+  let hasOptions = {}
   let defaultValuesText = ''
+  let hasOptionsText = ''
   let defaultValuesPropCt = 4
 
   let noLabelChecked = true
@@ -25,6 +27,7 @@
   let disabledChecked = true
   let requiredChecked = true
   let readOnlyChecked = true
+  let hideLabelChecked = true
   let addAllChecked = true
   let showAddAll = false
   let compSelected = false
@@ -33,16 +36,29 @@
   let visibleStatesLabel = ''
   let numComponentsToCreate = 0
 
+  let hasRequiredOption = false
+  let hasDisabledOption = false
+  let hasReadOnlyOption = false
+  let hasHideLabelOption = false
+
   $: {
     if (Object.keys(selectedComp).length) {
       compSelected = true
       defaultValues = selectedComp.defaultValues
+      hasOptions = selectedComp.hasOptions
+
+      hasRequiredOption = hasOptions.required
+      hasDisabledOption = hasOptions.disabled
+      hasReadOnlyOption = hasOptions.readOnlyView
+      hasHideLabelOption = hasOptions.hideComponentLabel
+
       defaultValuesText = JSON.stringify(defaultValues, null, ' ') || ''
       defaultValuesPropCt = defaultValues ? 24 : 4
 
-      showAddAll = Object.values(selectedComp.hasOptions).reduce((totalTrue, currentValue) => {
-        return currentValue ? totalTrue + 1 : totalTrue
-      }, 0) > 1
+      showAddAll =
+        Object.values(selectedComp.hasOptions).reduce((totalTrue, currentValue) => {
+          return currentValue ? totalTrue + 1 : totalTrue
+        }, 0) > 1
 
       numCompsToCreate = 0
       numCompStates = 0
@@ -52,15 +68,19 @@
       if (noLabelChecked) {
         numCompsToCreate++
       }
-      if (disabledChecked && selectedComp.hasOptions.disabled) {
+      if (hasDisabledOption && disabledChecked) {
         numCompsToCreate++
         numCompStates++
       }
-      if (requiredChecked && selectedComp.hasOptions.required) {
+      if (hasRequiredOption && requiredChecked) {
         numCompsToCreate++
         numCompStates++
       }
-      if (readOnlyChecked && selectedComp.hasOptions.readOnlyView) {
+      if (hasReadOnlyOption && readOnlyChecked) {
+        numCompsToCreate++
+        numCompStates++
+      }
+      if (hasHideLabelOption && hideLabelChecked) {
         numCompsToCreate++
         numCompStates++
       }
@@ -68,7 +88,12 @@
       if (numCompStates <= 1) {
         // if there are no "Add All" components to add, turn this off
         addAllChecked = false
-      } else if (addAllChecked) {
+        showAddAll = false
+      } else {
+        showAddAll = true
+      }
+
+      if (addAllChecked) {
         // else if there are "Add All" items checked, and they've checked addAll then increment
         numCompsToCreate++
       }
@@ -86,7 +111,6 @@
   }
 
   const genComponents = () => {
-    console.log('genComponents: ', selectedComp)
     const newComponents = []
     const compType = selectedComp.type
     let ct = $compCountStore[compType]
@@ -97,19 +121,12 @@
       return `${key}-${count}`
     }
     const getLabel = (comp, appendText) => {
-      const label = selectedCompLabel || comp.label || comp.defaultValues.label || 'uhoh'
+      const label = selectedCompLabel || comp.label || comp.defaultValues.label || ''
       const addText = appendText ? ` ${appendText} ` : ' '
       const count = $compCountStore[compType] + ct
 
       return `${label}${addText}- ${count}`
     }
-
-    const {
-      required: hasRequired,
-      disabled: hasDisabled,
-      readOnlyView: hasReadonly,
-      hideComponentLabel: hasHideLabel
-    } = selectedComp.hasOptions
 
     if (noLabelChecked) {
       newComponents.push({
@@ -117,9 +134,10 @@
         type: compType,
         key: getKey(selectedComp),
         label: '',
-        ...(hasRequired && { validate: { required: false } }),
-        ...(hasReadonly && { readOnlyView: false }),
-        ...(hasDisabled && { disabled: false })
+        ...(hasRequiredOption && { validate: { required: false } }),
+        ...(hasReadOnlyOption && { readOnlyView: false }),
+        ...(hasDisabledOption && { disabled: false }),
+        ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
     }
@@ -130,48 +148,66 @@
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp),
-        ...(hasRequired && { validate: { required: false } }),
-        ...(hasReadonly && { readOnlyView: false }),
-        ...(hasDisabled && { disabled: false })
+        ...(hasRequiredOption && { validate: { required: false } }),
+        ...(hasReadOnlyOption && { readOnlyView: false }),
+        ...(hasDisabledOption && { disabled: false }),
+        ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
     }
 
-    if (hasReadonly && readOnlyChecked) {
+    if (hasReadOnlyOption && readOnlyChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, '(readonly)'),
-        ...(hasRequired && { validate: { required: false } }),
-        ...(hasReadonly && { readOnlyView: true }),
-        ...(hasDisabled && { disabled: false })
+        ...(hasRequiredOption && { validate: { required: false } }),
+        ...(hasReadOnlyOption && { readOnlyView: true }),
+        ...(hasDisabledOption && { disabled: false }),
+        ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
     }
 
-    if (hasRequired && requiredChecked) {
+    if (hasRequiredOption && requiredChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, '(required)'),
-        ...(hasRequired && { validate: { required: true } }),
-        ...(hasReadonly && { readOnlyView: false }),
-        ...(hasDisabled && { disabled: false })
+        ...(hasRequiredOption && { validate: { required: true } }),
+        ...(hasReadOnlyOption && { readOnlyView: false }),
+        ...(hasDisabledOption && { disabled: false }),
+        ...(hasHideLabelOption && { hideComponentLabel: false })
       })
       ct++
     }
 
-    if (hasDisabled && disabledChecked) {
+    if (hasDisabledOption && disabledChecked) {
       newComponents.push({
         ...selectedComp.defaultValues,
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, '(disabled)'),
-        ...(hasRequired && { validate: { required: false } }),
-        ...(hasReadonly && { readOnlyView: false }),
-        ...(hasDisabled && { disabled: true })
+        ...(hasRequiredOption && { validate: { required: false } }),
+        ...(hasReadOnlyOption && { readOnlyView: false }),
+        ...(hasDisabledOption && { disabled: true }),
+        ...(hasHideLabelOption && { hideComponentLabel: false })
+      })
+      ct++
+    }
+
+    if (hasHideLabelOption && hideLabelChecked) {
+      newComponents.push({
+        ...selectedComp.defaultValues,
+        type: compType,
+        key: getKey(selectedComp),
+        label: getLabel(selectedComp, '(hidelabel)'),
+        ...(hasRequiredOption && { validate: { required: false } }),
+        ...(hasReadOnlyOption && { readOnlyView: false }),
+        ...(hasDisabledOption && { disabled: false }),
+        ...(hasHideLabelOption && { hideComponentLabel: true })
       })
       ct++
     }
@@ -182,9 +218,10 @@
         type: compType,
         key: getKey(selectedComp),
         label: getLabel(selectedComp, getNumVisibleStatesLabel()),
-        ...(hasRequired && { validate: { required: true } }),
-        ...(hasReadonly && { readOnlyView: true }),
-        ...(hasDisabled && { disabled: true })
+        ...(hasRequiredOption && { validate: { required: true } }),
+        ...(hasReadOnlyOption && { readOnlyView: true }),
+        ...(hasDisabledOption && { disabled: true }),
+        ...(hasHideLabelOption && { hideComponentLabel: true })
       })
       ct++
     }
@@ -196,9 +233,10 @@
 
   const getNumVisibleStatesLabel = () => {
     const opts = [
-      selectedComp.hasOptions.readOnlyView && readOnlyChecked ? 'readonly' : '',
-      selectedComp.hasOptions.required && requiredChecked ? 'required' : '',
-      selectedComp.hasOptions.disabled && disabledChecked ? 'disabled' : ''
+      hasReadOnlyOption && readOnlyChecked ? 'readonly' : '',
+      hasRequiredOption && requiredChecked ? 'required' : '',
+      hasDisabledOption && disabledChecked ? 'disabled' : '',
+      hasHideLabelOption && hideLabelChecked ? 'hidelabel' : ''
     ].filter((item) => item.length)
     return opts.length ? `(${opts.join(' ')})` : ''
   }
@@ -224,27 +262,34 @@
         </FormField>
 
         <Textfield variant="outlined" bind:value={selectedCompLabel} class="fullWidth">
-          <span class="labelHelperText" slot="helper">Label for any created components</span>
+          <span class="labelHelperText" slot="helper">Label prefix for any created components</span>
         </Textfield>
 
-        {#if selectedComp?.hasOptions?.readOnlyView}
+        {#if hasReadOnlyOption}
           <FormField>
             <Checkbox bind:checked={readOnlyChecked} />
             <span slot="label">Add ReadOnly State</span>
           </FormField>
         {/if}
 
-        {#if selectedComp?.hasOptions?.required}
+        {#if hasRequiredOption}
           <FormField>
             <Checkbox bind:checked={requiredChecked} />
             <span slot="label">Add Required State</span>
           </FormField>
         {/if}
 
-        {#if selectedComp?.hasOptions?.disabled}
+        {#if hasDisabledOption}
           <FormField>
             <Checkbox bind:checked={disabledChecked} />
             <span slot="label">Add Disabled State</span>
+          </FormField>
+        {/if}
+
+        {#if hasHideLabelOption}
+          <FormField>
+            <Checkbox bind:checked={hideLabelChecked} />
+            <span slot="label">Add Hide Label State</span>
           </FormField>
         {/if}
 
@@ -263,6 +308,14 @@
             </span>
           </FormField>
         {/if}
+
+        <h4>Component Has Options</h4>
+        <ul class="optionsList">
+          <li>Read Only: {hasReadOnlyOption}</li>
+          <li>Required: {hasRequiredOption}</li>
+          <li>Disabled: {hasDisabledOption}</li>
+          <li>Hide Label: {hasHideLabelOption}</li>
+        </ul>
       {/if}
     </div>
 
@@ -316,5 +369,11 @@
     font-size: 0.8rem;
     padding: 4px;
     color: #616161;
+  }
+
+  .optionsList {
+    margin: 0;
+    padding: 0 1rem;
+    list-style: none;
   }
 </style>
