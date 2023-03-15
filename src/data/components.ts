@@ -729,102 +729,6 @@ export const componentsData = [{
     triggerType: 'manual'
   }
 }, {
-  type: 'select',
-  label: 'Dropdown',
-  key: 'selectField',
-  constName: 'Dropdown',
-  deprecated: true,
-  iconName: 'dropdown',
-  hasOptions: {
-    readOnlyView: true,
-    required: true,
-    disabled: true,
-    hideComponentLabel: false
-  },
-  defaultValues: {
-    input: true,
-    tableView: true,
-    active: true,
-    label: '',
-    key: 'selectField',
-    placeholder: '',
-    data: {
-      values: [],
-      json: '',
-      url: '',
-      resource: '',
-      custom: ''
-    },
-    preventInnerFilter: false,
-    refreshDelay: 250,
-    dataSrc: 'values',
-    valueProperty: '',
-    defaultValue: '',
-    refreshOn: '',
-    filter: '',
-    authenticate: false,
-    template: '<span>{{ item.label }}</span>',
-    multiple: false,
-    protected: false,
-    unique: false,
-    persistent: true,
-    hidden: false,
-    validate: {
-      required: false
-    },
-    noValueAdjust: false,
-    service: ''
-  }
-}, {
-  type: 'selectv2',
-  label: 'DropdownV2',
-  key: 'selectField',
-  constName: 'DropdownV2',
-  iconName: 'dropdown',
-  dataSchema: true,
-  hasOptions: {
-    readOnlyView: true,
-    required: true,
-    disabled: true,
-    hideComponentLabel: true
-  },
-  defaultValues: {
-    input: true,
-    tableView: true,
-    label: '',
-    key: 'selectField',
-    placeholder: '',
-    tableshow: false,
-    labelKey: 'label',
-    valueKey: 'value',
-    openOnClick: true,
-    data: {
-      values: [],
-      json: '',
-      url: '',
-      resource: '',
-      custom: ''
-    },
-    debounce: 400,
-    refreshDelay: 250,
-    dataSrc: 'values',
-    valueProperty: '',
-    defaultValue: '',
-    refreshOn: '',
-    filter: '',
-    authenticate: false,
-    multiple: false,
-    protected: false,
-    unique: false,
-    persistent: true,
-    hidden: false,
-    validate: {
-      required: false
-    },
-    noValueAdjust: false,
-    removePillLabel: 'Remove'
-  }
-}, {
   type: 'dynamicGrid',
   label: 'Dynamic Grid',
   key: 'dynamicgrid',
@@ -860,7 +764,7 @@ export const componentsData = [{
 }, {
   type: 'emailv2',
   label: 'Email',
-  key: 'email',
+  key: 'emailv2',
   constName: 'EmailV2',
   iconName: 'email',
   dataSchema: true,
@@ -1645,7 +1549,7 @@ export const componentsData = [{
 }, {
   type: 'radiov2',
   label: 'Radio v2',
-  key: 'radioField',
+  key: 'radioFieldv2',
   constName: 'RadioV2',
   iconName: 'radio',
   dataSchema: true,
@@ -1734,6 +1638,102 @@ export const componentsData = [{
     key: 'richTextEditor',
     label: '',
     dataInputList: []
+  }
+}, {
+  type: 'select',
+  label: 'Dropdown',
+  key: 'selectField',
+  constName: 'Dropdown',
+  deprecated: true,
+  iconName: 'dropdown',
+  hasOptions: {
+    readOnlyView: true,
+    required: true,
+    disabled: true,
+    hideComponentLabel: false
+  },
+  defaultValues: {
+    input: true,
+    tableView: true,
+    active: true,
+    label: '',
+    key: 'selectField',
+    placeholder: '',
+    data: {
+      values: [],
+      json: '',
+      url: '',
+      resource: '',
+      custom: ''
+    },
+    preventInnerFilter: false,
+    refreshDelay: 250,
+    dataSrc: 'values',
+    valueProperty: '',
+    defaultValue: '',
+    refreshOn: '',
+    filter: '',
+    authenticate: false,
+    template: '<span>{{ item.label }}</span>',
+    multiple: false,
+    protected: false,
+    unique: false,
+    persistent: true,
+    hidden: false,
+    validate: {
+      required: false
+    },
+    noValueAdjust: false,
+    service: ''
+  }
+}, {
+  type: 'selectv2',
+  label: 'DropdownV2',
+  key: 'selectFieldv2',
+  constName: 'DropdownV2',
+  iconName: 'dropdown',
+  dataSchema: true,
+  hasOptions: {
+    readOnlyView: true,
+    required: true,
+    disabled: true,
+    hideComponentLabel: true
+  },
+  defaultValues: {
+    input: true,
+    tableView: true,
+    label: '',
+    key: 'selectField',
+    placeholder: '',
+    tableshow: false,
+    labelKey: 'label',
+    valueKey: 'value',
+    openOnClick: true,
+    data: {
+      values: [],
+      json: '',
+      url: '',
+      resource: '',
+      custom: ''
+    },
+    debounce: 400,
+    refreshDelay: 250,
+    dataSrc: 'values',
+    valueProperty: '',
+    defaultValue: '',
+    refreshOn: '',
+    filter: '',
+    authenticate: false,
+    multiple: false,
+    protected: false,
+    unique: false,
+    persistent: true,
+    hidden: false,
+    validate: {
+      required: false
+    },
+    noValueAdjust: false,
+    removePillLabel: 'Remove'
   }
 }, {
   type: 'selectboxes',
