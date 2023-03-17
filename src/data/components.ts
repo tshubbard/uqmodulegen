@@ -856,7 +856,7 @@ export const componentsData = [{
   }
 }, {
   type: 'filev2',
-  label: 'File',
+  label: 'FileV2',
   key: 'filev2',
   constName: 'FileV2',
   iconName: 'file',
