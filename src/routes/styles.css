@@ -29,17 +29,21 @@
 
 body,
 html {
-	margin: 0;
+  --FONT_SANS_SERIF: 'Inter', sans-serif;
+  --FONT_SERIF: 'Slabo 13px', serif;
+	
+  margin: 0;
 	height: 100%;
 	min-height: 100%;
-	font-family: Roboto;
+	font-family: var(--FONT_SANS_SERIF);
+  --mdc-typography-font-family: var(--FONT_SANS_SERIF);
 }
 
 h1,
 h2,
 h3,
 h4 {
-	font-family: Space Grotesk;
+	font-family: var(--FONT_SERIF);
 }
 
 .fullWidth {

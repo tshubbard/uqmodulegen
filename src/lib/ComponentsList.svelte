@@ -114,7 +114,7 @@
         </Button>
       </div>
     </div>
-    <div>
+    <div class="componentsJson">
       <textarea bind:value={componentsJSON} />
     </div>
   </div>
@@ -150,7 +150,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   :global(.componentsList) {
@@ -180,8 +180,11 @@
     gap: 1rem;
     padding: 1rem;
 
+    & .componentsJson {
+      height: 100%;
+    }
     & textarea {
-      height: 200px;
+      height: 100%;
       width: 99%;
     }
   }
@@ -198,6 +201,6 @@
     grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end: span 2;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 </style>
