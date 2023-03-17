@@ -1,11 +1,11 @@
 <script>
   import './styles.css'
 
-	const commit = 'acec17ba'
+	const commit = '8f25535'
 	const projectUrl = 'https://github.com/tshubbard/uqmodulegen'
 	const commitLink = '/commit/'
 	const commitUrl = `${projectUrl}${commitLink}${commit}`
-	const lastBuilt = 'Mar 17, 2023, 8:19 AM EDT'
+	const lastBuilt = 'Mar 17, 2023, 8:23 AM EDT'
 </script>
 
 <div class="app">
