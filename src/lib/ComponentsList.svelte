@@ -108,7 +108,8 @@
         <Button on:click={clearData} variant="raised" disabled={componentsJSON.length === 0}>
           <Label>Clear</Label>
         </Button>
-
+      </div>
+      <div>
         <Button on:click={copyToClipboard} variant="raised" disabled={componentsJSON.length === 0}>
           <Label>Copy to Clipboard</Label>
         </Button>
@@ -127,8 +128,8 @@
   .componentsListSectionWrapper {
     display: grid;
     height: calc(100vh - 13rem);
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
-    grid-template-rows: minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr);
     gap: 1rem;
   }
 
@@ -138,7 +139,7 @@
   .componentsOutlineWrapper {
     border: 1px solid black;
     border-radius: 4px;
-    padding: 1rem;
+    padding: 0 1rem;
     height: 100%;
   }
 
@@ -146,7 +147,7 @@
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: span 2;
+    grid-row-end: span 3;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -166,41 +167,44 @@
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: span 2;
-    border-bottom: none;
+    grid-row-end: span 3;
   }
 
   .componentsJsonWrapper {
-    grid-column-start: 2;
-    grid-column-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
     grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-end: 4;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem;
 
     & .componentsJson {
       height: 100%;
     }
     & textarea {
-      height: 100%;
+      height: 80%;
       width: 99%;
     }
   }
 
   .componentsJsonHeader {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
+    gap: 0.5rem;
+
+    & h3 {
+      margin: 1rem 0 0.5rem;
+    }
   }
 
   .componentsOutlineWrapper {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 1;
-    grid-row-end: span 2;
+    grid-row-end: 2;
     overflow-y: auto;
   }
 </style>

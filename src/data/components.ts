@@ -93,7 +93,6 @@ export const componentsData = [{
   constName: 'BasicDropdown',
   iconName: 'basic-dropdown',
   dataSchema: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: true,
     required: true,
@@ -126,6 +125,7 @@ export const componentsData = [{
   key: 'browserStorage',
   constName: 'BrowserStorage',
   iconName: 'browser-storage',
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -160,7 +160,6 @@ export const componentsData = [{
   key: 'btn',
   constName: 'Button',
   iconName: 'button',
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -266,7 +265,6 @@ export const componentsData = [{
   constName: 'CheckboxV2',
   iconName: 'checkbox',
   dataSchema: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: true,
     required: true,
@@ -283,6 +281,7 @@ export const componentsData = [{
   key: 'cp',
   constName: 'Checkpoint',
   iconName: 'checkpoint',
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -318,7 +317,7 @@ export const componentsData = [{
   key: 'col',
   constName: 'Columns',
   iconName: 'columns',
-  alreadyExists: true,
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -347,7 +346,35 @@ export const componentsData = [{
         width: 6
       }
     ]
-  }
+  },
+  options: [{
+    id: 'col-layout-12',
+    label: '1 column'
+  }, {
+    id: 'col-layout-6-6',
+    label: '2 columns'
+  }, {
+    id: 'col-layout-4-4-4',
+    label: '3 columns'
+  }, {
+    id: 'col-layout-3-3-3-3',
+    label: '4 columns'
+  }, {
+    id: 'col-layout-3-9',
+    label: '2 columns, narrow left'
+  }, {
+    id: 'col-layout-9-3',
+    label: '2 columns, narrow right'
+  }, {
+    id: 'col-layout-1-10-1',
+    label: '3 columns, wide center'
+  }, {
+    id: 'col-layout-2-8-2',
+    label: '3 columns, narrow center'
+  }, {
+    id: 'col-layout-custom',
+    label: 'custom'
+  }]
 }, {
   type: 'container',
   label: 'Container',
@@ -519,6 +546,7 @@ export const componentsData = [{
   key: 'dm',
   constName: 'DataMapper',
   iconName: 'data-mapper',
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -547,6 +575,7 @@ export const componentsData = [{
   constName: 'AdvancedDatagrid',
   label: 'Advanced Datagrid',
   iconName: 'data-viewer',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -593,6 +622,7 @@ export const componentsData = [{
   key: 'dwf',
   constName: 'DataWorkflow',
   iconName: 'data-workflow',
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -624,7 +654,6 @@ export const componentsData = [{
   constName: 'DateInput',
   iconName: 'date-input',
   dataSchema: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -647,7 +676,6 @@ export const componentsData = [{
   constName: 'DatePicker',
   iconName: 'date-picker',
   deprecated: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -697,7 +725,7 @@ export const componentsData = [{
   key: 'rule',
   constName: 'Decision',
   iconName: 'decision',
-  alreadyExists: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -819,6 +847,7 @@ export const componentsData = [{
   type: 'field-group',
   label: 'Field Group',
   iconName: 'field-group',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -883,6 +912,7 @@ export const componentsData = [{
   key: 'fs',
   constName: 'FileStorage',
   iconName: 'file-storage',
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -924,6 +954,7 @@ export const componentsData = [{
   key: 'freeformGrid',
   constName: 'FreeformGrid',
   iconName: 'freeform-grid',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1018,6 +1049,7 @@ export const componentsData = [{
   constName: 'Hidden',
   iconName: 'hidden',
   dataSchema: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: true,
@@ -1033,7 +1065,6 @@ export const componentsData = [{
   key: 'html',
   constName: 'HtmlElement',
   iconName: 'html-element',
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1054,6 +1085,7 @@ export const componentsData = [{
   label: 'Data Table',
   iconName: 'data-table',
   dataSchema: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1080,7 +1112,7 @@ export const componentsData = [{
   key: 'init',
   constName: 'Initializer',
   iconName: 'initializer',
-  alreadyExists: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1202,6 +1234,7 @@ export const componentsData = [{
   key: 'nav',
   constName: 'Navigation',
   iconName: 'navigation',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1242,7 +1275,6 @@ export const componentsData = [{
   constName: 'Number',
   iconName: 'number',
   dataSchema: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: false,
     required: true,
@@ -1263,7 +1295,7 @@ export const componentsData = [{
   key: 'panel',
   constName: 'Panel',
   iconName: 'panel',
-  alreadyExists: true,
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1313,6 +1345,7 @@ export const componentsData = [{
   constName: 'Pdf',
   iconName: 'pdf',
   deprecated: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1437,7 +1470,7 @@ export const componentsData = [{
   key: 'plug',
   constName: 'Plugin',
   iconName: 'plug-in',
-  alreadyExists: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1485,6 +1518,7 @@ export const componentsData = [{
   constName: 'Query',
   iconName: 'query',
   deprecated: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1583,6 +1617,7 @@ export const componentsData = [{
   key: 'rep',
   constName: 'Repeater',
   iconName: 'repeater',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1786,6 +1821,7 @@ export const componentsData = [{
   key: 'setcookie',
   constName: 'SetCookie',
   iconName: 'set-cookie',
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1861,6 +1897,7 @@ export const componentsData = [{
   key: 'table',
   constName: 'Table',
   iconName: 'table',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -1913,7 +1950,6 @@ export const componentsData = [{
   constName: 'TextArea',
   iconName: 'text-area',
   dataSchema: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: true,
     required: true,
@@ -1952,7 +1988,6 @@ export const componentsData = [{
   constName: 'TextField',
   iconName: 'text-field',
   dataSchema: true,
-  alreadyExists: true,
   hasOptions: {
     readOnlyView: true,
     required: true,
@@ -2015,7 +2050,7 @@ export const componentsData = [{
   key: 'calc',
   constName: 'Calculator',
   iconName: 'transformer',
-  alreadyExists: true,
+  isLogic: true,
   hasOptions: {
     readOnlyView: false,
     required: false,
@@ -2048,6 +2083,7 @@ export const componentsData = [{
   key: 'uniformGrid',
   constName: 'UniformGrid',
   iconName: 'uniform-grid',
+  isLayout: true,
   hasOptions: {
     readOnlyView: false,
     required: false,

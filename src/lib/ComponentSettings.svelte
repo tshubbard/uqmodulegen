@@ -7,6 +7,7 @@
   import FormField from '@smui/form-field'
   import Textfield from '@smui/textfield'
   import HelperText from '@smui/textfield/helper-text'
+  import Select, { Option } from '@smui/select'
 
   import { compCountStore } from '../stores/stores.js'
 
@@ -18,6 +19,7 @@
   let selectedCompLabel = selectedComp.label || ''
   let defaultValues = {}
   let hasOptions = {}
+  let isLayout = false
   let defaultValuesText = ''
   let hasOptionsText = ''
   let defaultValuesPropCt = 4
@@ -41,12 +43,24 @@
   let hasReadOnlyOption = false
   let hasHideLabelOption = false
 
+  let selectedLayoutOption = ''
+  let layoutOptionColNum = 2
+  let layoutColumns = ''
+
   $: {
     if (Object.keys(selectedComp).length) {
       compSelected = true
       defaultValues = selectedComp.defaultValues
       hasOptions = selectedComp.hasOptions
+      isLayout = selectedComp.isLayout
 
+      if (selectedComp.type === 'columns') {
+        layoutColumns = getColumnsFromLayout()
+        if (selectedLayoutOption === '') {
+          selectedLayoutOption = selectedComp.defaultValues.selectedColumnLayout
+        }
+      }
+      
       hasRequiredOption = hasOptions.required
       hasDisabledOption = hasOptions.disabled
       hasReadOnlyOption = hasOptions.readOnlyView
@@ -110,131 +124,127 @@
     }
   }
 
+  const getColumnsFromLayout = () => {
+    return selectedLayoutOption.split('-').slice(2)
+  }
+
+  const getKey = (comp) => {
+    const key = comp.key || comp.defaultValues.key || 'uhoh'
+
+    return `${key}-${$compCountStore[comp.type]}`
+  }
+
+  const getLabel = (comp, appendText) => {
+    const label = selectedCompLabel || comp.label || comp.defaultValues.label || ''
+    const addText = appendText ? ` ${appendText} ` : ' '
+
+    return `${label}${addText}- ${$compCountStore[comp.type]}`
+  }
+
+  const getComponent = ({
+    label = '',
+    required = false,
+    readOnlyView = false,
+    disabled = false,
+    hideComponentLabel = false
+  }) => {
+    const comp = {
+      ...selectedComp.defaultValues,
+      type: selectedComp.type,
+      key: getKey(selectedComp),
+      label,
+      ...(hasRequiredOption && { validate: { required } }),
+      ...(hasReadOnlyOption && { readOnlyView }),
+      ...(hasDisabledOption && { disabled }),
+      ...(hasHideLabelOption && { hideComponentLabel })
+    }
+
+    if (selectedComp.isLayout && selectedComp.type === 'columns') {
+      const cols = getColumnsFromLayout()
+      const columns = []
+      cols.forEach(item => {
+        columns.push({
+          components: [],
+          width: item,
+          offset: 0,
+          pull: 0,
+          push: 0
+        })
+      })
+      comp.columns = columns
+    }
+    return comp
+  }
+
   const genComponents = () => {
     const newComponents = []
     const compType = selectedComp.type
     let ct = $compCountStore[compType]
-    let addCt = 0
 
-    const getKey = (comp) => {
-      const key = comp.key || comp.defaultValues.key || 'uhoh'
-
-      return `${key}-${ct}`
-    }
-
-    const getLabel = (comp, appendText) => {
-      const label = selectedCompLabel || comp.label || comp.defaultValues.label || ''
-      const addText = appendText ? ` ${appendText} ` : ' '
-
-      return `${label}${addText}- ${ct}`
-    }
 
     if (noLabelChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
-        label: '',
-        ...(hasRequiredOption && { validate: { required: false } }),
-        ...(hasReadOnlyOption && { readOnlyView: false }),
-        ...(hasDisabledOption && { disabled: false }),
-        ...(hasHideLabelOption && { hideComponentLabel: false })
-      })
-      ct++
-      addCt++
+      newComponents.push(getComponent({
+        label: ''
+      }))
+
+      $compCountStore[compType]++
     }
 
     if (compWithLabelChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
-        label: getLabel(selectedComp),
-        ...(hasRequiredOption && { validate: { required: false } }),
-        ...(hasReadOnlyOption && { readOnlyView: false }),
-        ...(hasDisabledOption && { disabled: false }),
-        ...(hasHideLabelOption && { hideComponentLabel: false })
-      })
-      ct++
-      addCt++
+      newComponents.push(getComponent({
+        label: getLabel(selectedComp)
+      }))
+
+      $compCountStore[compType]++
     }
 
     if (hasReadOnlyOption && readOnlyChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
+      newComponents.push(getComponent({
         label: getLabel(selectedComp, '(readonly)'),
-        ...(hasRequiredOption && { validate: { required: false } }),
-        ...(hasReadOnlyOption && { readOnlyView: true }),
-        ...(hasDisabledOption && { disabled: false }),
-        ...(hasHideLabelOption && { hideComponentLabel: false })
-      })
-      ct++
-      addCt++
+        readOnlyView: true
+      }))
+
+      $compCountStore[compType]++
     }
 
     if (hasRequiredOption && requiredChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
+      newComponents.push(getComponent({
         label: getLabel(selectedComp, '(required)'),
-        ...(hasRequiredOption && { validate: { required: true } }),
-        ...(hasReadOnlyOption && { readOnlyView: false }),
-        ...(hasDisabledOption && { disabled: false }),
-        ...(hasHideLabelOption && { hideComponentLabel: false })
-      })
-      ct++
-      addCt++
+        required: true
+      }))
+
+      $compCountStore[compType]++
     }
 
     if (hasDisabledOption && disabledChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
+      newComponents.push(getComponent({
         label: getLabel(selectedComp, '(disabled)'),
-        ...(hasRequiredOption && { validate: { required: false } }),
-        ...(hasReadOnlyOption && { readOnlyView: false }),
-        ...(hasDisabledOption && { disabled: true }),
-        ...(hasHideLabelOption && { hideComponentLabel: false })
-      })
-      ct++
-      addCt++
+        disabled: true
+      }))
+
+      $compCountStore[compType]++
     }
 
     if (hasHideLabelOption && hideLabelChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
+      newComponents.push(getComponent({
         label: getLabel(selectedComp, '(hidelabel)'),
-        ...(hasRequiredOption && { validate: { required: false } }),
-        ...(hasReadOnlyOption && { readOnlyView: false }),
-        ...(hasDisabledOption && { disabled: false }),
-        ...(hasHideLabelOption && { hideComponentLabel: true })
-      })
-      ct++
-      addCt++
+        hideComponentLabel: true
+      }))
+
+      $compCountStore[compType]++
     }
 
     if (addAllChecked) {
-      newComponents.push({
-        ...selectedComp.defaultValues,
-        type: compType,
-        key: getKey(selectedComp),
+      newComponents.push(getComponent({
         label: getLabel(selectedComp, getNumVisibleStatesLabel()),
-        ...(hasRequiredOption && { validate: { required: true } }),
-        ...(hasReadOnlyOption && { readOnlyView: true }),
-        ...(hasDisabledOption && { disabled: true }),
-        ...(hasHideLabelOption && { hideComponentLabel: true })
-      })
-      ct++
-      addCt++
-    }
+        required: true,
+        readOnlyView: true,
+        disabled: true,
+        hideComponentLabel: true
+      }))
 
-    $compCountStore[compType] = $compCountStore[compType] + addCt
+      $compCountStore[compType]++
+    }
 
     dispatch('addComponents', newComponents)
   }
@@ -253,7 +263,7 @@
 <section class="componentsConfigSectionWrapper">
   <div class="configSectionWrapper">
     <div class="configSection">
-      <h3>{selectedComp?.constName ? selectedComp.constName : ''} Config</h3>
+      <h3>{selectedComp?.constName ? selectedComp.constName : ''} Config - UI States</h3>
 
       {#if compSelected}
         <Wrapper>
@@ -315,6 +325,50 @@
               {visibleStatesLabel}
             </span>
           </FormField>
+        {/if}
+
+        {#if selectedComp.isLayout && selectedComp.type === 'columns'}
+          <h4>Layout Options</h4>
+
+          <ul class="optionsList">
+            <li>
+              <FormField class="fullWidth">
+                <Select bind:value={selectedLayoutOption} class="fullWidth" label="Number of Columns?">
+                  {#each selectedComp.options as opt}
+                    <Option value={opt.id}  >{opt.label}</Option>
+                  {/each}
+                </Select>
+              </FormField>
+            </li>
+            <li>
+              <div>&nbsp;</div>
+            </li>
+            {#if selectedLayoutOption === 'col-layout-custom'}
+            <li>
+              <FormField>
+                <Textfield 
+                  variant="outlined"
+                  bind:value={layoutOptionColNum}
+                  type="number"
+                  label="Up to 12 columns"
+                  on:change={() => {
+                    if (layoutOptionColNum < 1) {
+                      layoutOptionColNum = 1
+                    } else if (layoutOptionColNum > 12) {
+                      layoutOptionColNum = 12
+                    }
+                  }}
+                  >
+                </Textfield>
+              </FormField>              
+            </li>
+            {/if}
+            <li>
+              <div>{selectedLayoutOption}</div>
+              <div>{layoutColumns}</div>
+            </li>
+            
+          </ul>
         {/if}
 
         <h4>Component Has Options</h4>
