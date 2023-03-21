@@ -3,7 +3,7 @@
 	const projectUrl = 'https://github.com/tshubbard/uqmodulegen'
   const changelogUrl = 'https://github.com/tshubbard/uqmodulegen/commits/main'
 	const commitLink = '/commit/'
-	const lastBuilt = 'Mar 17, 2023, 8:32 AM EDT'
+	const lastBuilt = 'Mar 21 2023, 9:20 AM EDT'
 </script>
 
 <footer class="footer">
