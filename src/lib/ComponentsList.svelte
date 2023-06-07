@@ -1,9 +1,11 @@
 <script lang="ts">
   import debounce from 'lodash/debounce'
-  import List, { Item, Meta, Text, PrimaryText, SecondaryText } from '@smui/list'
+  import List, { Item, Text, PrimaryText } from '@smui/list'
   import Button, { Label } from '@smui/button'
   import Textfield from '@smui/textfield'
   import Icon from '@smui/textfield/icon'
+  import Snackbar, { Actions } from '@smui/snackbar'
+  import IconButton from '@smui/icon-button'
 
   import { componentsData } from '../data/components'
   import ComponentSettings from './ComponentSettings.svelte'
@@ -18,6 +20,7 @@
   let selectionIndex: number | undefined = undefined
   let filteredComponents = componentsData
   let compCt = {}
+  let snackbarSuccess: Snackbar
 
   const resetCompStore = () => {
     compCt = {}
@@ -47,10 +50,18 @@
     componentsArr = [...componentsArr, ...event.detail]
 
     componentsJSON = JSON.stringify(componentsArr)
+    copyToClipboard()
   }
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(componentsJSON)
+    navigator.clipboard.writeText(componentsJSON).then(
+      () => {
+        snackbarSuccess.open()
+      },
+      (err) => {
+        console.error('Could not copy text: ', err)
+      }
+    )
   }
 
   const clearData = () => {
@@ -122,6 +133,14 @@
   <div class="componentsOutlineWrapper">
     <Outline components={componentsArr} {selectedComp} on:updateComponents={onUpdateComponents} />
   </div>
+  <Snackbar bind:this={snackbarSuccess} class="successToast">
+    <Label
+      >Copied Module Def to Clipboard</Label
+    >
+    <Actions>
+      <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </Actions>
+  </Snackbar>
 </section>
 
 <style lang="scss">
@@ -161,6 +180,20 @@
 
   :global(.mdc-deprecated-list-item__text) {
     padding-bottom: 0.25rem;
+  }
+
+  :global(.mdc-snackbar.successToast .mdc-snackbar__surface) {
+    background-color: #4BB543;
+  }
+
+  :global(.mdc-snackbar.successToast .mdc-snackbar__label) {
+    color: #000000;
+    font-weight: 600;
+  }
+
+  :global(.mdc-snackbar.successToast .mdc-snackbar__dismiss) {
+    color: #000000;
+    font-weight: 600;
   }
 
   .componentsConfigWrapper {

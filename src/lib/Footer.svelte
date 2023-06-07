@@ -1,13 +1,13 @@
 <script>
-
+  import { AppVersion } from './constants'
 	const projectUrl = 'https://github.com/tshubbard/uqmodulegen'
   const changelogUrl = 'https://github.com/tshubbard/uqmodulegen/commits/main'
 	const commitLink = '/commit/'
-	const lastBuilt = 'Mar 21 2023, 9:20 AM EDT'
+	const lastBuilt = new Date().toLocaleString()
 </script>
 
 <footer class="footer">
-  <div>Version: {APP_VERSION} | Last built: {lastBuilt}</div>
+  <div>Version: {AppVersion} | Last built: {lastBuilt}</div>
   <div><a href={changelogUrl}>Changelog</a></div>
   <div>Repo: <a href={projectUrl}>{projectUrl}</a></div>
 </footer>

@@ -1,0 +1,1 @@
+export const AppVersion = APP_VERSION
